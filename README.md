@@ -2,20 +2,41 @@
 
 Este repositorio contiene el proyecto realizado en la materia (75.16) Lenguajes
 de Programación en la FIUBA. El mismo consiste de un compilador de PL0 a x86
-nativo en formato ELF.
+nativo en formato ELF, desarrollado enteramente en ruby y publicado como una
+gema en rubygems.
 
-## Prerequisitos
+## Uso
+
+### Instalación
+
+La aplicación se distribuye como una gema publicada en rubygems. [TODO: Definir
+cómo se llama la gema y dar instrucciones de instalación]
+
+### Uso como binario
+
+[TODO: Definir cómo se utiliza la gema]
+
+### Uso como librería
+
+[TODO: Definir la API que se puede invocar]
+
+## Desarrollo
+
+### Entorno
 
 Es necesario tener [ruby](https://www.ruby-lang.org/en/), versión 2.0.0 en
 adelante y [bundler](http://bundler.io/). Se recomienda utilizar
 [RVM](https://rvm.io/) para instalar la version de ruby correspondiente.
 
-## Estructura del repositorio
+### Estructura del repositorio
 
 El repositorio está subdividio en los siguientes directorios:
 
-* **samples**: Directorio en donde se almacenan todos documentos y material de
-  referencia propuestos por la cátedra.
+* **samples**: Directorio en donde se almacenan algunos programas en PL0 y sus
+  correspondientes traducciones a código máquina.
+
+* **docs**: Documentación provista por la cátedra para la realización del
+  trabajo práctico.
 
 ## Licencia
 
