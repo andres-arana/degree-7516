@@ -1,3 +1,3 @@
-module Pl0compiler
+module PLZero
   VERSION = "0.0.1"
 end
