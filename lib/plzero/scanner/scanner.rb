@@ -17,6 +17,7 @@ module PLZero
         line.split("").each do |char|
           @state.push char
         end
+        @state.push "\n"
       end
 
       def eof
