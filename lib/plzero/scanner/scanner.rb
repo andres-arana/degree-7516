@@ -18,15 +18,23 @@ module PLZero
       end
 
       def push(line)
-        @current_line = line
+        @current_line = line.chomp
         line.split("").each do |char|
           @state.push char
         end
         @state.push "\n"
+      rescue RuntimeError => e
+        @errors.each do |callback|
+          callback.call "Line #{@current_line}: #{e}"
+        end
       end
 
       def eof
         @state.eof
+      rescue RuntimeError => e
+        @errors.each do |callback|
+          callback.call "Line #{@current_line}: #{e}"
+        end
       end
 
       private

@@ -5,8 +5,10 @@ require "plzero"
 
 scanner = PLZero::Scanner::Scanner.new
 
+tokens = []
+
 scanner.on_token do |token|
-  puts "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line].chomp}'"
+  tokens << "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line].chomp}'"
 end
 
 scanner.on_error do |error|
@@ -14,9 +16,16 @@ scanner.on_error do |error|
   puts ""
 end
 
+puts "Analyzing"
+
 ARGF.each do |line|
   scanner.push line
 end
 
 scanner.eof
+
+puts "Recognized tokens: "
+tokens.each do |token|
+  puts token
+end
 
