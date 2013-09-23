@@ -20,6 +20,15 @@ module PLZero
         emit
       end
 
+      def current_chars
+        @chars
+      end
+
+      def clear!
+        @chars = ""
+        super
+      end
+
       private
       def emit
         emit_token id: current_type, value: @chars
