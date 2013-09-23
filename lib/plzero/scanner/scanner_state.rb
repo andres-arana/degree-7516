@@ -1,6 +1,10 @@
 module PLZero
   module Scanner
     class ScannerState
+      def initialize
+        @buffer = ""
+      end
+
       def on_transition(&transition)
         @on_transition = transition
       end
@@ -16,6 +20,14 @@ module PLZero
 
       def emit_token(token)
         @on_token.call token
+      end
+
+      def buffer
+        @buffer
+      end
+
+      def append_to_buffer(char)
+        @buffer << char
       end
     end
   end

@@ -1,3 +1,1 @@
-module PLZero
-  # Your code goes here...
-end
+require "plzero/scanner/scanner"

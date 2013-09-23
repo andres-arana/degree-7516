@@ -5,6 +5,7 @@ module PLZero
     class Scanner
       def initialize
         @callbacks = []
+        @errors = []
         transition InitialState, ""
       end
 
@@ -12,21 +13,25 @@ module PLZero
         @callbacks.push callback
       end
 
-      def push_line(line)
+      def on_error(&callback)
+        @errors.push callback
+      end
+
+      def push(line)
         @current_line = line
         line.split("").each do |char|
-          @state.push char
+          do_push char
         end
-        @state.push "\n"
+        do_push "\n"
       end
 
       def eof
-        @state.eof
+        do_push "\n"
       end
 
       private
       def transition(state, initial_value)
-        @state = state.new initial_value
+        @state = state.new
 
         @state.on_transition do |new_state, initial_value|
           transition(new_state, initial_value)
@@ -35,11 +40,23 @@ module PLZero
         @state.on_token do |token|
           emit(token)
         end
+
+        unless initial_value.empty?
+          @state.push initial_value
+        end
       end
 
       def emit(token)
         @callbacks.each do |callback|
           callback.call token.merge(line: @current_line)
+        end
+      end
+
+      def do_push(char)
+        @state.push char
+      rescue RuntimeError => e
+        @errors.each do |callback|
+          callback.call "Line #{@current_line}: #{e}"
         end
       end
     end

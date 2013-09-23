@@ -1,23 +1,41 @@
 require "plzero/scanner/scanner_state"
-require "plzero/scanner/reading_identifier_state"
+require "plzero/scanner/identifier_state"
+require "plzero/scanner/number_state"
 
 module PLZero
   module Scanner
     class InitialState < ScannerState
-      def initialize(initial_value)
-        # No processing needs to be done on the initial value as there
-        # shouldn't be any.
-      end
+      SYMBOLS = {
+        "." => :point,
+        "=" => :equals,
+        "," => :comma,
+        ";" => :semicolon,
+        "+" => :plus,
+        "-" => :minus,
+        "*" => :times,
+        "/" => :divided_by,
+        "(" => :open_p,
+        ")" => :close_p
+      }
 
       def push(char)
-        if char =~ /\S/
-          transition_to ReadingIdentifierState, char
+        if char =~ /[a-zA-Z]/ # Alphabetic
+          transition_to IdentifierState, char
+        elsif char =~ /\d/ # Digits
+          transition_to NumberState, char
+        elsif char =~ /\s/ # Whitespace
+          # Ignore whitespaces
+        elsif char == ":"
+          transition_to AssignmentState, char
+        elsif char == "<"
+          transition_to LessState, char
+        elsif char == ">"
+          transition_to GreaterState, char
+        elsif SYMBOLS.has_key? char
+          emit_token id: SYMBOLS[char], value: char
+        else
+          raise "Unable to recognize symbol #{char}"
         end
-      end
-
-      def eof
-        # If we reach the end of file while on this state, we are done
-        # processing all tokens.
       end
     end
   end

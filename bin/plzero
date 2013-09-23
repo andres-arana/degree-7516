@@ -1,0 +1,21 @@
+#! /usr/bin/env ruby
+
+require "rubygems"
+require "plzero"
+
+scanner = PLZero::Scanner::Scanner.new
+
+scanner.on_token do |token|
+  puts "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line]}'"
+end
+
+scanner.on_error do |error|
+  puts "ERROR: #{error}"
+end
+
+ARGF.each do |line|
+  scanner.push line
+end
+
+scanner.eof
+
