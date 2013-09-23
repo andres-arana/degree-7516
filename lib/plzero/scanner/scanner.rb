@@ -20,13 +20,13 @@ module PLZero
       def push(line)
         @current_line = line
         line.split("").each do |char|
-          do_push char
+          @state.push char
         end
-        do_push "\n"
+        @state.push "\n"
       end
 
       def eof
-        do_push "\n"
+        @state.eof
       end
 
       private
@@ -42,7 +42,9 @@ module PLZero
         end
 
         unless initial_value.empty?
-          @state.push initial_value
+          initial_value.split("").each do |char|
+            @state.push char
+          end
         end
       end
 
@@ -50,16 +52,6 @@ module PLZero
         @callbacks.each do |callback|
           callback.call token.merge(line: @current_line)
         end
-      end
-
-      def do_push(char)
-        @state.push char
-      rescue RuntimeError => e
-        @errors.each do |callback|
-          callback.call "Line #{@current_line}: #{e}"
-        end
-
-        raise "Halting scanning"
       end
     end
   end

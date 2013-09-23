@@ -3,22 +3,21 @@ require "plzero/scanner/initial_state"
 
 module PLZero
   module Scanner
-    class LessState < ScannerState
+    class StringState < ScannerState
       def push(char)
-        if char == ">"
-          emit_token id: :different, value: "<>"
+        if char == "'"
+          emit_token id: :string, value: buffer
           transition_to InitialState, ""
-        elsif char == "="
-          emit_token id: :less_or_equal, value: "<="
+        elsif char == "\n"
+          emit_token id: :null, value: buffer
           transition_to InitialState, ""
         else
-          emit_token id: :less, value: "<"
-          transition_to InitialState, char
+          append_to_buffer char
         end
       end
 
       def eof
-        emit_token id: :less, value: "<"
+        emit_token id: :null, value: buffer
         transition_to InitialState, ""
       end
     end

@@ -5,7 +5,7 @@ module PLZero
   module Scanner
     class IdentifierState < ScannerState
       KEYWORDS = ["const", "var", "procedure", "call", "begin", "end", "if",
-                  "then", "while", "do", "odd"]
+                  "then", "while", "do", "odd", "readln", "writeln", "write"]
 
       def push(char)
         if char =~ /\W/
@@ -17,6 +17,11 @@ module PLZero
           # Accumulate current identifier
           append_to_buffer char
         end
+      end
+
+      def eof
+        emit_token id: identifier_type, value: buffer
+        transition_to InitialState, ""
       end
 
       private

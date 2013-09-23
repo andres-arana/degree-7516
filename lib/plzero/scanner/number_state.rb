@@ -12,6 +12,11 @@ module PLZero
           transition_to InitialState, char
         end
       end
+
+      def eof
+        emit_token id: :number, value: buffer
+        transition_to InitialState, ""
+      end
     end
   end
 end
