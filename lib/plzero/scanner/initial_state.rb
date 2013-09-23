@@ -37,7 +37,7 @@ module PLZero
         elsif SYMBOLS.has_key? char
           emit_token id: SYMBOLS[char], value: char
         else
-          raise "Invalid symbol #{char}"
+          emit_token id: :null, value: char
         end
       end
     end
