@@ -1,6 +1,7 @@
 require "plzero/scanner/scanner_state"
 require "plzero/scanner/identifier_state"
 require "plzero/scanner/number_state"
+require "plzero/scanner/assignment_state"
 
 module PLZero
   module Scanner
@@ -34,7 +35,7 @@ module PLZero
         elsif SYMBOLS.has_key? char
           emit_token id: SYMBOLS[char], value: char
         else
-          raise "Unable to recognize symbol #{char}"
+          raise "Invalid symbol #{char}"
         end
       end
     end

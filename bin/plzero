@@ -11,6 +11,7 @@ end
 
 scanner.on_error do |error|
   puts "ERROR: #{error}"
+  puts ""
 end
 
 ARGF.each do |line|

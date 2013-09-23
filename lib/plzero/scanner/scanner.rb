@@ -58,6 +58,8 @@ module PLZero
         @errors.each do |callback|
           callback.call "Line #{@current_line}: #{e}"
         end
+
+        raise "Halting scanning"
       end
     end
   end
