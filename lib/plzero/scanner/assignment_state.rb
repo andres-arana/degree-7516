@@ -9,13 +9,13 @@ module PLZero
           emit_token id: :assign, value: ":="
           transition_to InitialState, ""
         else
-          emit_token id: :null, value: ":"
+          emit_token id: :error_assign, value: ":"
           transition_to InitialState, char
         end
       end
 
       def eof
-        emit_token id: :null, value: ":"
+        emit_token id: :error_assign, value: ":"
         transition_to InitialState, ""
       end
     end

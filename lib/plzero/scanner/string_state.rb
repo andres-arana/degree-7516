@@ -9,7 +9,7 @@ module PLZero
           emit_token id: :string, value: buffer
           transition_to InitialState, ""
         elsif char == "\n"
-          emit_token id: :null, value: buffer
+          emit_token id: :err_string, value: buffer
           transition_to InitialState, ""
         else
           append_to_buffer char
@@ -17,7 +17,7 @@ module PLZero
       end
 
       def eof
-        emit_token id: :null, value: buffer
+        emit_token id: :err_string, value: buffer
         transition_to InitialState, ""
       end
     end

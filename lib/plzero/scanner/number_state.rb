@@ -6,6 +6,7 @@ module PLZero
     class NumberState < ScannerState
 
       MAX_NUMBER_SIZE = 10
+      MAX_NUMBER = 2147483648
 
       def initialize
         super
@@ -35,8 +36,12 @@ module PLZero
       private
       def emit
         if @buffer_size_panic
-          emit_token id: :null, value: buffer
+          emit_token id: :err_number_long, value: buffer
           transition_to InitialState, ""
+        elsif buffer.to_i > MAX_NUMBER
+          emit_token id: :err_number_big, value: buffer
+          transition_to InitialState, ""
+          raise "Number '#{buffer}' is too big, should be less than #{MAX_NUMBER}"
         else
           emit_token id: :number, value: buffer
           transition_to InitialState, ""
