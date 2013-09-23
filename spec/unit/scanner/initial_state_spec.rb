@@ -1,52 +1,38 @@
 require "plzero/scanner/initial_state"
-require "unit/scanner/state_spec_helpers"
+require "unit/scanner/helpers"
 
 describe PLZero::Scanner::InitialState do
-  subject { described_class.new "" }
+  extend Scanner::Helpers
 
-  let(:transitions) { [] }
-  let(:tokens) { [] }
+  setup_subject ""
+  setup_transitions_and_tokens
 
-  before :each do
-    subject.on_transition do |new_state, initial_value|
-      transitions << { state: new_state, value: initial_value }
-    end
-    subject.on_token do |token|
-      tokens << token
-    end
+  context ".push SPACE" do
+    subject_push " "
+    it_does_not_cause_transitions
+    it_does_not_cause_tokens
   end
 
-  context ".push" do
-    context "when receiving a ' ' character" do
-      before(:each) { subject.push " " }
-      it_behaves_like "noop"
-    end
+  context ".push TAB" do
+    subject_push "\t"
+    it_does_not_cause_transitions
+    it_does_not_cause_tokens
+  end
 
-    context "when receiving a '\t' character" do
-      before(:each) { subject.push "\t" }
-      it_behaves_like "noop"
-    end
+  context ".push NEWLINE" do
+    subject_push "\n"
+    it_does_not_cause_transitions
+    it_does_not_cause_tokens
+  end
 
-    context "when receving an alphabetic character" do
-      before(:each) { subject.push "C" }
-
-      it "transitions into reading identifier" do
-        expect(transitions).to have(1).items
-
-        transition = transitions.first
-        expect(transition[:state]).to be(PLZero::Scanner::ReadingIdentifierState)
-        expect(transition[:value]).to eq("C")
-      end
-
-      it "does not cause any tokens" do
-        expect(tokens).to be_empty
-      end
-    end
+  context ".push NON-SPACE" do
+    subject_push "A"
+    it_causes_transition PLZero::Scanner::ReadingIdentifierState, "A"
+    it_does_not_cause_tokens
   end
 
   context ".eof" do
-    it "does not cause any tokens" do
-      expect(tokens).to be_empty
-    end
+    it_does_not_cause_transitions
+    it_does_not_cause_tokens
   end
 end
