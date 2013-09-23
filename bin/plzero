@@ -6,7 +6,7 @@ require "plzero"
 scanner = PLZero::Scanner::Scanner.new
 
 scanner.on_token do |token|
-  puts "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line]}'"
+  puts "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line].chomp}'"
 end
 
 scanner.on_error do |error|
