@@ -20,9 +20,9 @@ module PLZero
       def push(line)
         @current_line = line.chomp
         line.split("").each do |char|
-          @state.push char
+          do_push char
         end
-        @state.push "\n"
+        do_push "\n"
       rescue RuntimeError => e
         @errors.each do |callback|
           callback.call "Line #{@current_line}: #{e}"
@@ -59,6 +59,14 @@ module PLZero
       def emit(token)
         @callbacks.each do |callback|
           callback.call token.merge(line: @current_line)
+        end
+      end
+
+      def do_push(char)
+        @state.push char
+      rescue RuntimeError => e
+        @errors.each do |callback|
+          callback.call "Line #{@current_line}: #{e}"
         end
       end
     end
