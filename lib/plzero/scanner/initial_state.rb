@@ -2,6 +2,8 @@ require "plzero/scanner/scanner_state"
 require "plzero/scanner/identifier_state"
 require "plzero/scanner/number_state"
 require "plzero/scanner/assignment_state"
+require "plzero/scanner/less_state"
+require "plzero/scanner/greater_state"
 
 module PLZero
   module Scanner
@@ -15,8 +17,8 @@ module PLZero
         "-" => :minus,
         "*" => :times,
         "/" => :divided_by,
-        "(" => :open_p,
-        ")" => :close_p
+        "(" => :open_paren,
+        ")" => :close_paren
       }
 
       def push(char)
