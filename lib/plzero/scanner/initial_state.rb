@@ -41,6 +41,7 @@ module PLZero
           emit_token id: SYMBOLS[char], value: char
         else
           emit_token id: :null, value: char
+          raise "Unrecognized character '#{char}'"
         end
       end
 

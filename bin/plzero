@@ -4,16 +4,25 @@ require "plzero"
 
 token_provider = PLZero::Scanner::TokenProvider.new
 
+puts ""
 puts "Running syntatic analysis"
 puts "-------------------------"
+puts ""
 
+@errors = false
 token_provider.on_error do |error|
-  puts "ERROR: #{error}"
+  puts "\e[1m\e[31mERROR\e[0m on line #{error[:line_number]},#{error[:char_number]}: #{error[:line]}"
+  puts "  #{error[:error]}"
+  @errors = true
 end
 
 tokens = []
 while token = token_provider.fetch
   tokens << "Token #{token[:id].upcase} '#{token[:value]}' on line '#{token[:line].chomp}'"
+end
+
+if not @errors
+  puts "\e[1m\e[32mSUCCESS\e[0m"
 end
 
 puts ""
