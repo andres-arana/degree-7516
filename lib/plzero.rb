@@ -1,1 +1,1 @@
-require "plzero/scanner/scanner"
+require "plzero/scanner/token_provider"

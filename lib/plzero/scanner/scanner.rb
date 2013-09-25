@@ -23,10 +23,6 @@ module PLZero
           do_push char
         end
         do_push "\n"
-      rescue RuntimeError => e
-        @errors.each do |callback|
-          callback.call "Line #{@current_line}: #{e}"
-        end
       end
 
       def eof
